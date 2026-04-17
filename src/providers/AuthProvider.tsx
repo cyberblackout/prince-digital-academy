@@ -91,8 +91,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
 
     return () => {
-        if (subscription) subscription.unsubscribe();
-      };
+      if (subscription) subscription.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
