@@ -25,9 +25,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabase = (() => {
+    try {
+      return createClient();
+    } catch {
+      return null;
+    }
+  })();
 
   const fetchUserProfile = async (authUser: SupabaseUser) => {
+    if (!supabase) return;
     const { data } = await supabase
       .from('users')
       .select(`
@@ -47,6 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const refreshUser = async () => {
+    if (!supabase) return;
     const { data: { user: authUser } } = await supabase.auth.getUser();
     if (authUser) {
       await fetchUserProfile(authUser);
@@ -55,6 +63,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const getSession = async () => {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       const { data: { user: authUser } } = await supabase.auth.getUser();
       setSupabaseUser(authUser);
       if (authUser) {
@@ -65,7 +77,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     getSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSupabaseUser(session?.user ?? null);
         if (session?.user) {
@@ -77,11 +90,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+        if (subscription) subscription.unsubscribe();
+      };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     setUser(null);
     setSupabaseUser(null);
