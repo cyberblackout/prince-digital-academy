@@ -25,16 +25,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = (() => {
-    try {
-      return createClient();
-    } catch {
-      return null;
-    }
-  })();
+  const supabase = createClient();
 
   const fetchUserProfile = async (authUser: SupabaseUser) => {
-    if (!supabase) return;
     const { data } = await supabase
       .from('users')
       .select(`
@@ -54,7 +47,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const refreshUser = async () => {
-    if (!supabase) return;
     const { data: { user: authUser } } = await supabase.auth.getUser();
     if (authUser) {
       await fetchUserProfile(authUser);
@@ -63,10 +55,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const getSession = async () => {
-      if (!supabase) {
-        setLoading(false);
-        return;
-      }
       const { data: { user: authUser } } = await supabase.auth.getUser();
       setSupabaseUser(authUser);
       if (authUser) {
@@ -77,30 +65,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     getSession();
 
-    let subscription: { unsubscribe: () => void } | null = null;
-    if (supabase) {
-      const result = supabase.auth.onAuthStateChange(
-        async (event, session) => {
-          setSupabaseUser(session?.user ?? null);
-          if (session?.user) {
-            await fetchUserProfile(session.user);
-          } else {
-            setUser(null);
-          }
-          setLoading(false);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSupabaseUser(session?.user ?? null);
+        if (session?.user) {
+          await fetchUserProfile(session.user);
+        } else {
+          setUser(null);
         }
-      );
-      subscription = result.data.subscription;
-    }
+        setLoading(false);
+      }
+    );
 
-    return () => {
-      if (subscription) subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signOut = async () => {
-    if (!supabase) return;
     await supabase.auth.signOut();
     setUser(null);
     setSupabaseUser(null);
