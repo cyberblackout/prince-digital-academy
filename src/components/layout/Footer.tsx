@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SITE_NAME, SITE_PHONE, SITE_EMAIL, WHATSAPP_NUMBER } from '@/lib/constants';
-import { GraduationCap, Phone, Mail, MapPin } from 'lucide-react';
+import { GraduationCap, Phone, Mail, MapPin, Wifi } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -82,8 +82,10 @@ export default function Footer() {
           <p className="text-xs text-gray-500 text-center">
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
-          <p className="text-xs text-gray-500 text-center">
-            Made with ❤️ for Ghana
+          <p className="text-xs text-gray-400 text-center flex items-center gap-1">
+            Built by <span className="font-semibold text-white">CyberBlackou</span>
+            <Wifi size={10} className="text-secondary" />
+            <span className="font-semibold text-secondary">DevX</span>
           </p>
         </div>
       </div>
