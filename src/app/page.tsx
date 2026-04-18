@@ -124,95 +124,67 @@ export default function HomePage() {
       <PublicNavbar />
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="hero-section relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <div className="position-absolute top-0 end-0 w-75 h-75 bg-secondary opacity-25 rounded-circle blur-5" />
-          <div className="position-absolute bottom-0 start-0 w-75 h-75 bg-primary opacity-25 rounded-circle blur-5" />
+      <section className="hero-section position-relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="position-absolute top-0 start-0 w-100 h-100">
+          <div className="position-absolute top-0 end-0 w-50 h-50 bg-secondary opacity-10 rounded-circle translate-middle-x" />
+          <div className="position-absolute bottom-0 start-0 w-50 h-50 bg-primary opacity-10 rounded-circle translate-middle-x" />
         </div>
 
-        <div className="container py-5 py-md-5 py-lg-5 position-relative z-1">
-          <div className="row align-items-center g-5">
+        <div className="container position-relative z-1 py-4 py-md-5">
+          <div className="row align-items-center min-vh-100 py-5">
+            {/* Left Content */}
             <div className="col-12 col-lg-6">
-              <div className={`${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
-                {/* Badge */}
-                <div className="d-inline-flex align-items-center gap-2 bg-white bg-opacity-25 backdrop-filter rounded-pill px-4 py-2 mb-4">
-                  <Sparkles size={16} className="text-warning" />
-                  <span className="text-white small fw-medium">Smart Learning, Real Results</span>
-                  <span className="badge bg-success rounded-circle p-1">
-                    <span className="visually-hidden">New</span>
-                  </span>
-                </div>
+              {/* Badge */}
+              <div className="d-inline-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2 mb-3 mb-md-4">
+                <Sparkles size={14} className="text-warning" />
+                <span className="text-white small">Smart Learning</span>
+              </div>
 
-                {/* Heading */}
-                <h1 className="display-4 display-md-3 fw-bold text-white mb-4 lh-base">
-                  Unlock Your <span className="text-warning">Potential</span> <br />
-                  <span className="fw-normal text-white-50">With Quality Education</span>
-                </h1>
+              {/* Main Heading */}
+              <h1 className="display-5 display-md-4 fw-bold text-white mb-3 mb-md-4">
+                Unlock Your <span className="text-warning">Potential</span>
+              </h1>
 
-                {/* Description */}
-                <p className="lead text-white-50 mb-4 pe-lg-5">
-                  Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
-                </p>
+              <p className="lead text-white-50 mb-4 mb-md-5">
+                Quality education for JHS, SHS & beyond. Learn from expert teachers across Ghana.
+              </p>
 
-                {/* Buttons */}
-                <div className="d-flex flex-wrap gap-3 mb-5">
-                  <Link href="/courses" className="btn btn-warning btn-lg fw-semibold shadow-lg hover-scale">
-                    <Play size={20} /> Explore Courses
-                  </Link>
-                  <Link href="/register" className="btn btn-outline-light btn-lg fw-semibold hover-scale">
-                    Get Started Free <ChevronRight size={20} />
-                  </Link>
-                </div>
+              {/* CTA Buttons */}
+              <div className="d-flex flex-wrap gap-3 mb-4 mb-md-5">
+                <Link href="/courses" className="btn btn-warning fw-semibold px-4 py-2">
+                  <Play size={18} /> Explore Courses
+                </Link>
+                <Link href="/register" className="btn btn-outline-light fw-semibold px-4 py-2">
+                  Get Started
+                </Link>
+              </div>
 
-                {/* Stats */}
-                <div className="row text-center g-3 g-md-4">
-                  <div className="col-4">
-                    <div className="p-3">
-                      <h3 className="h2 fw-bold text-white mb-1">500+</h3>
-                      <p className="text-white-50 small mb-0">Students</p>
-                    </div>
+              {/* Stats Row */}
+              <div className="d-flex flex-wrap gap-4 gap-md-5">
+                {stats.map((s) => (
+                  <div key={s.label} className="text-center">
+                    <h3 className="h4 fw-bold text-white mb-0">{s.value}</h3>
+                    <p className="small text-white-50 mb-0">{s.label}</p>
                   </div>
-                  <div className="col-4">
-                    <div className="p-3">
-                      <h3 className="h2 fw-bold text-white mb-1">50+</h3>
-                      <p className="text-white-50 small mb-0">Courses</p>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div className="p-3">
-                      <h3 className="h2 fw-bold text-white mb-1">20+</h3>
-                      <p className="text-white-50 small mb-0">Teachers</p>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Right Side - Visual */}
-            <div className="col-12 col-lg-6 d-none d-lg-block">
-              <div className={`${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
-                <div className="position-relative text-center">
-                  <div className="position-relative d-inline-block">
-                    <div className="bg-white bg-opacity-10 rounded-circle p-5 backdrop-filter" style={{ width: '280px', height: '280px' }}>
-                      <GraduationCap size={120} className="text-white opacity-25" />
-                    </div>
-                    {/* Floating Badge */}
-                    <div className="position-absolute top-0 end-0 bg-warning rounded-pill px-3 py-2 shadow-lg animate-pulse">
-                      <span className="fw-bold text-dark">95% Pass Rate</span>
-                    </div>
-                    {/* Floating Card */}
-                    <div className="position-absolute bottom-0 start-0 bg-white rounded-3 shadow-lg p-3">
-                      <div className="d-flex align-items-center gap-3">
-                        <div className="bg-success bg-opacity-25 rounded-circle p-2">
-                          <Users size={20} className="text-success" />
-                        </div>
-                        <div>
-                          <p className="fw-bold text-dark mb-0 small">Active Students</p>
-                          <p className="text-success mb-0 small fw-bold">500+ Online</p>
-                        </div>
-                      </div>
-                    </div>
+            {/* Right Visual - Hidden on mobile, shown on md+ */}
+            <div className="col-12 col-lg-6 d-none d-md-block text-center">
+              <div className="position-relative d-inline-block">
+                <div className="bg-white bg-opacity-10 rounded-circle p-5" style={{ width: '280px', height: '280px' }}>
+                  <GraduationCap size={100} className="text-white opacity-25" />
+                </div>
+                {/* Floating badges */}
+                <div className="position-absolute top-0 end-0 bg-warning rounded-pill px-3 py-2 shadow">
+                  <span className="fw-bold text-dark small">95% Pass</span>
+                </div>
+                <div className="position-absolute bottom-0 start-0 bg-white rounded-3 shadow px-3 py-2">
+                  <div className="d-flex align-items-center gap-2">
+                    <Users size={16} className="text-success" />
+                    <span className="fw-bold text-dark small">500+ Students</span>
                   </div>
                 </div>
               </div>
