@@ -42,7 +42,18 @@ const stats = [
   { value: '95%', label: 'Success Rate', suffix: '%' },
 ];
 
-const steps = [
+const heroImages = [
+  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=300&fit=crop',
+];
+
+const heroImagesSecond = [...heroImages]; // Duplicate for seamless loop
   { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
   { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
   { num: '3', title: 'Start Learning', desc: 'Access lessons, take quizzes, and join live classes from anywhere' },
@@ -123,6 +134,17 @@ export default function HomePage() {
     <>
       <PublicNavbar />
 
+      {/* ═══════════ IMAGE MARQUEE ═══════════ */}
+      <div className="marquee-container">
+        <div className="marquee-content">
+          {[...heroImages, ...heroImages, ...heroImages].map((img, i) => (
+            <div key={i} className="marquee-item">
+              <img src={img} alt={`Student ${i + 1}`} />
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* ═══════════ HERO ═══════════ */}
       <section className="hero-section relative">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -138,14 +160,14 @@ export default function HomePage() {
                 With Quality Education
               </h1>
               <p className="text-lg text-white/70 mb-8 max-w-lg">
-                Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
+                Empowering African students through quality education. Join thousands of learners across Ghana achieving their academic dreams.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/courses" className="btn-secondary py-3 px-6 text-base">
-                  <Play size={18} /> Explore Courses
+                <Link href="/register" className="btn-secondary py-3 px-6 text-base">
+                  <Play size={18} /> Join Us Now
                 </Link>
-                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 transition-all inline-flex items-center gap-2">
-                  Get Started Free <ChevronRight size={18} />
+                <Link href="/courses" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 transition-all inline-flex items-center gap-2">
+                  Learn More <ChevronRight size={18} />
                 </Link>
               </div>
 
