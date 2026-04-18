@@ -127,52 +127,91 @@ export default function HomePage() {
       <section className="hero-section relative overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+          <div className="position-absolute top-0 end-0 w-75 h-75 bg-secondary opacity-25 rounded-circle blur-5" />
+          <div className="position-absolute bottom-0 start-0 w-75 h-75 bg-primary opacity-25 rounded-circle blur-5" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 py-16 md:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className={`${mounted ? 'animate-slide-in-left' : 'opacity-0'}`}>
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-secondary mb-6 animate-bounce" style={{ animationDuration: '3s' }}>
-                <Sparkles size={14} className="animate-spin" style={{ animationDuration: '2s' }} />
-                Smart Learning, Real Results
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Unlock Your{' '}
-                <span className="text-secondary animate-pulse">Potential</span>{' '}
-                With Quality Education
-              </h1>
-              <p className="text-lg text-white/70 mb-8 max-w-lg">
-                Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/courses" className="btn-secondary py-3 px-6 text-base hover:scale-105 transition-transform">
-                  <Play size={18} /> Explore Courses
-                </Link>
-                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 hover:scale-105 transition-all inline-flex items-center gap-2">
-                  Get Started Free <ChevronRight size={18} />
-                </Link>
-              </div>
+        <div className="container py-5 py-md-5 py-lg-5 position-relative z-1">
+          <div className="row align-items-center g-5">
+            <div className="col-12 col-lg-6">
+              <div className={`${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
+                {/* Badge */}
+                <div className="d-inline-flex align-items-center gap-2 bg-white bg-opacity-25 backdrop-filter rounded-pill px-4 py-2 mb-4">
+                  <Sparkles size={16} className="text-warning" />
+                  <span className="text-white small fw-medium">Smart Learning, Real Results</span>
+                  <span className="badge bg-success rounded-circle p-1">
+                    <span className="visually-hidden">New</span>
+                  </span>
+                </div>
 
-              <div className="grid grid-cols-3 gap-6 mt-12">
-                {stats.map((s, i) => (
-                  <div key={s.label} className={`text-center ${mounted ? 'animate-count-up' : 'opacity-0'}`} style={{ animationDelay: `${i * 0.2}s` }}>
-                    <p className="text-2xl md:text-3xl font-bold text-white">{s.value}</p>
-                    <p className="text-sm text-white/50">{s.label}</p>
+                {/* Heading */}
+                <h1 className="display-4 display-md-3 fw-bold text-white mb-4 lh-base">
+                  Unlock Your <span className="text-warning">Potential</span> <br />
+                  <span className="fw-normal text-white-50">With Quality Education</span>
+                </h1>
+
+                {/* Description */}
+                <p className="lead text-white-50 mb-4 pe-lg-5">
+                  Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
+                </p>
+
+                {/* Buttons */}
+                <div className="d-flex flex-wrap gap-3 mb-5">
+                  <Link href="/courses" className="btn btn-warning btn-lg fw-semibold shadow-lg hover-scale">
+                    <Play size={20} /> Explore Courses
+                  </Link>
+                  <Link href="/register" className="btn btn-outline-light btn-lg fw-semibold hover-scale">
+                    Get Started Free <ChevronRight size={20} />
+                  </Link>
+                </div>
+
+                {/* Stats */}
+                <div className="row text-center g-3 g-md-4">
+                  <div className="col-4">
+                    <div className="p-3">
+                      <h3 className="h2 fw-bold text-white mb-1">500+</h3>
+                      <p className="text-white-50 small mb-0">Students</p>
+                    </div>
                   </div>
-                ))}
+                  <div className="col-4">
+                    <div className="p-3">
+                      <h3 className="h2 fw-bold text-white mb-1">50+</h3>
+                      <p className="text-white-50 small mb-0">Courses</p>
+                    </div>
+                  </div>
+                  <div className="col-4">
+                    <div className="p-3">
+                      <h3 className="h2 fw-bold text-white mb-1">20+</h3>
+                      <p className="text-white-50 small mb-0">Teachers</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className={`hidden lg:block ${mounted ? 'animate-float' : 'opacity-0'}`}>
-              <div className="relative">
-                <div className="w-80 h-80 rounded-full bg-gradient-to-br from-secondary/30 to-primary/20 animate-pulse-glow" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <GraduationCap size={100} className="text-white/30 animate-bounce" style={{ animationDuration: '3s' }} />
-                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-secondary rounded-full flex items-center justify-center animate-pulse">
-                      <Star size={20} className="text-primary-dark" />
+            {/* Right Side - Visual */}
+            <div className="col-12 col-lg-6 d-none d-lg-block">
+              <div className={`${mounted ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+                <div className="position-relative text-center">
+                  <div className="position-relative d-inline-block">
+                    <div className="bg-white bg-opacity-10 rounded-circle p-5 backdrop-filter" style={{ width: '280px', height: '280px' }}>
+                      <GraduationCap size={120} className="text-white opacity-25" />
+                    </div>
+                    {/* Floating Badge */}
+                    <div className="position-absolute top-0 end-0 bg-warning rounded-pill px-3 py-2 shadow-lg animate-pulse">
+                      <span className="fw-bold text-dark">95% Pass Rate</span>
+                    </div>
+                    {/* Floating Card */}
+                    <div className="position-absolute bottom-0 start-0 bg-white rounded-3 shadow-lg p-3">
+                      <div className="d-flex align-items-center gap-3">
+                        <div className="bg-success bg-opacity-25 rounded-circle p-2">
+                          <Users size={20} className="text-success" />
+                        </div>
+                        <div>
+                          <p className="fw-bold text-dark mb-0 small">Active Students</p>
+                          <p className="text-success mb-0 small fw-bold">500+ Online</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
