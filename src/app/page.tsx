@@ -1,125 +1,90 @@
-"use client";
-
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PublicNavbar from '@/components/layout/PublicNavbar';
 import Footer from '@/components/layout/Footer';
-import { BookOpen, Video, Users, Award, ArrowRight, BookMarked, TrendingUp, Shield, Globe, Star } from 'lucide-react';
+import { BookOpen, Video, HelpCircle, Smartphone, GraduationCap, FlaskConical, Briefcase, Palette, Sprout, School, ChevronRight, Star, Play, Users, Award } from 'lucide-react';
 
 const features = [
-  { icon: <Users size={24} />, title: 'Expert Educators', desc: 'Learn from qualified teachers with years of experience' },
-  { icon: <Video size={24} />, title: 'Live Classes', desc: 'Interactive sessions via Google Meet and Zoom' },
-  { icon: <BookOpen size={24} />, title: 'Quality Content', desc: 'Well-structured lessons and comprehensive materials' },
-  { icon: <TrendingUp size={24} />, title: 'Track Progress', desc: 'Monitor your performance with detailed analytics' },
+  { icon: <Users size={28} />, title: 'Expert Teachers', desc: 'Learn from experienced educators who are passionate about teaching' },
+  { icon: <Video size={28} />, title: 'Live Classes', desc: 'Interactive live sessions with Google Meet and Zoom integration' },
+  { icon: <HelpCircle size={28} />, title: 'Quizzes & Exams', desc: 'Test your knowledge with engaging quizzes and track your progress' },
+  { icon: <Smartphone size={28} />, title: 'Learn Anywhere', desc: 'Access courses on any device — mobile, tablet, or desktop' },
 ];
 
 const categories = [
-  { icon: '📚', title: 'JHS', desc: 'Math, Science, Social', slug: 'jhs' },
-  { icon: '🔬', title: 'Science', desc: 'Chem, Bio, Physics', slug: 'science' },
-  { icon: '💼', title: 'Business', desc: 'Accounts, Economics', slug: 'business' },
-  { icon: '🎨', title: 'Arts', desc: 'Design, Fine Art', slug: 'arts' },
-  { icon: '🌾', title: 'Agriculture', desc: 'Crop, Animal Science', slug: 'agriculture' },
-  { icon: '🎓', title: 'SHS General', desc: 'All Streams', slug: 'general' },
+  { icon: <School size={32} />, title: 'JHS Students', desc: 'Mathematics, Integrated Science, Social Studies', slug: 'jhs' },
+  { icon: <FlaskConical size={32} />, title: 'Science Students', desc: 'Chemistry, Biology, Physics, Mathematics', slug: 'science' },
+  { icon: <Briefcase size={32} />, title: 'Business Students', desc: 'Accounting, Economics, Business Management', slug: 'business' },
+  { icon: <Palette size={32} />, title: 'Visual Art Students', desc: 'Art & Design Foundation, Art Studies', slug: 'arts' },
+  { icon: <Sprout size={32} />, title: 'Agricultural Students', desc: 'Chemistry, Physics, Agricultural Science', slug: 'agriculture' },
+  { icon: <GraduationCap size={32} />, title: 'SHS General', desc: 'Core subjects and electives for all streams', slug: 'general' },
 ];
 
 const courses = [
-  { title: 'Core Mathematics for SHS', category: 'Science', teacher: 'Mr. Kofi Asante', price: 50, image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop', students: 120, lessons: 24 },
-  { title: 'English Language Mastery', category: 'General', teacher: 'Mrs. Ama Mensah', price: 45, image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop', students: 89, lessons: 18 },
-  { title: 'Integrated Science JHS', category: 'JHS', teacher: 'Mr. Yaw Boateng', price: 0, image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop', students: 156, lessons: 30 },
-  { title: 'Financial Accounting SHS', category: 'Business', teacher: 'Mr. Daniel Osei', price: 60, image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop', students: 67, lessons: 22 },
-];
-
-const stats = [
-  { value: '500+', label: 'Students' },
-  { value: '50+', label: 'Courses' },
-  { value: '20+', label: 'Teachers' },
-  { value: '95%', label: 'Pass Rate' },
+  { title: 'Core Mathematics for SHS', category: 'Science', teacher: 'Mr. Kofi Asante', price: 50, image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop' },
+  { title: 'English Language Mastery', category: 'General', teacher: 'Mrs. Ama Mensah', price: 45, image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop' },
+  { title: 'Integrated Science JHS', category: 'JHS', teacher: 'Mr. Yaw Boateng', price: 0, image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop' },
+  { title: 'Financial Accounting SHS', category: 'Business', teacher: 'Mr. Daniel Osei', price: 60, image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop' },
 ];
 
 const testimonials = [
-  { name: 'Kofi Mensah', role: 'SHS 3 Student', quote: 'Excellent platform! The lessons are well-structured and easy to follow.', avatar: 'KM' },
-  { name: 'Ama Serwaa', title: 'JHS 3 Student', quote: 'Live classes help me understand difficult topics better. Highly recommend!', avatar: 'AS' },
-  { name: 'Daniel Ofosu', title: 'WASSCE Candidate', quote: 'The practice quizzes helped me score high in my exams. Thank you!', avatar: 'DO' },
+  { name: 'Kofi Mensah', role: 'SHS 3 Science Student', quote: 'Prince Digital Academy helped me improve my grades significantly. The teachers explain complex topics in simple ways!' },
+  { name: 'Ama Serwaa', role: 'JHS 3 Student', quote: 'The live classes feature is amazing! I can ask questions and get instant feedback from my teachers.' },
+  { name: 'Daniel Ofosu', role: 'WASSCE Candidate', quote: 'Affordable and high-quality education. The quizzes helped me prepare well for my WASSCE exams.' },
+];
+
+const stats = [
+  { value: '500+', label: 'Active Students' },
+  { value: '50+', label: 'Online Courses' },
+  { value: '20+', label: 'Expert Teachers' },
+  { value: '95%', label: 'Success Rate' },
 ];
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <>
       <PublicNavbar />
 
-      {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className={`space-y-6 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-4 py-1.5 text-sm">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-white/80">Ghana&apos;s Leading Online Learning Platform</span>
+      {/* ═══════════ HERO ═══════════ */}
+      <section className="hero-section relative">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-secondary mb-6">
+                <Star size={14} className="fill-secondary" />
+                Smart Learning, Real Results
               </div>
-
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                Quality Education{' '}
-                <span className="text-secondary">For Everyone</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                Unlock Your{' '}
+                <span className="text-secondary">Potential</span>{' '}
+                With Quality Education
               </h1>
-
-              <p className="text-base sm:text-lg text-white/70 max-w-xl">
-                Join thousands of students across Ghana learning from expert teachers. 
-                Access JHS, SHS, and professional courses from any device.
+              <p className="text-lg text-white/70 mb-8 max-w-lg">
+                Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <Link href="/courses" className="btn-primary-professional">
-                  Browse Courses
-                  <ArrowRight size={18} />
+              <div className="flex flex-wrap gap-4">
+                <Link href="/courses" className="btn-secondary py-3 px-6 text-base">
+                  <Play size={18} /> Explore Courses
                 </Link>
-                <Link href="/register" className="btn-outline-professional">
-                  Get Started Free
+                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 transition-all inline-flex items-center gap-2">
+                  Get Started Free <ChevronRight size={18} />
                 </Link>
               </div>
 
-              <div className="flex items-center gap-6 pt-4">
-                {stats.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <p className="text-xl sm:text-2xl font-bold">{s.value}</p>
-                    <p className="text-xs text-white/50">{s.label}</p>
+              <div className="grid grid-cols-3 gap-6 mt-12">
+                {[{ v: '500+', l: 'Students' }, { v: '50+', l: 'Courses' }, { v: '20+', l: 'Teachers' }].map((s) => (
+                  <div key={s.l} className="text-center">
+                    <p className="text-2xl md:text-3xl font-bold text-white">{s.v}</p>
+                    <p className="text-sm text-white/50">{s.l}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className={`hidden lg:block relative ${mounted ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '0.3s' }}>
+            <div className="hidden lg:flex justify-center">
               <div className="relative">
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10">
-                  <div className="grid grid-cols-2 gap-4">
-                    {categories.slice(0, 4).map((cat) => (
-                      <div key={cat.slug} className="bg-white/5 rounded-2xl p-4 text-center hover:bg-white/10 transition-colors cursor-pointer">
-                        <span className="text-3xl mb-2 block">{cat.icon}</span>
-                        <p className="font-semibold text-sm">{cat.title}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                      <TrendingUp size={20} className="text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-800">95% Pass Rate</p>
-                      <p className="text-xs text-gray-500">Proven Results</p>
-                    </div>
-                  </div>
+                <div className="w-80 h-80 rounded-full bg-secondary/20 animate-pulse-glow" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <GraduationCap size={120} className="text-white/20" />
                 </div>
               </div>
             </div>
@@ -127,29 +92,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Why Students Choose Us
+      {/* ═══════════ FEATURES ═══════════ */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              Why Choose <span className="text-secondary">Prince Digital</span> Academy?
             </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">
-              We combine quality education with modern technology to deliver the best learning experience
-            </p>
+            <p className="text-gray-500 max-w-xl mx-auto">We provide everything you need to succeed in your academic journey</p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f, i) => (
-              <div
-                key={f.title}
-                className={`professional-card ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div className="professional-icon">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((f) => (
+              <div key={f.title} className="bg-surface rounded-2xl p-6 text-center card-hover group">
+                <div className="w-16 h-16 rounded-2xl gradient-primary text-white flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   {f.icon}
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
+                <h4 className="font-semibold text-gray-800 mb-2">{f.title}</h4>
                 <p className="text-sm text-gray-500">{f.desc}</p>
               </div>
             ))}
@@ -157,139 +115,117 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIES SECTION */}
-      <section className="py-16 md:py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Browse by Category
+      {/* ═══════════ CATEGORIES ═══════════ */}
+      <section className="py-20 bg-surface">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              Browse by <span className="text-secondary">Category</span>
             </h2>
-            <p className="text-gray-500">Find courses tailored to your academic level and goals</p>
+            <p className="text-gray-500">Find the perfect course for your academic needs</p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {categories.map((cat, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/courses?category=${cat.slug}`}
-                className={`professional-category-card ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${i * 0.1}s` }}
+                className="bg-white rounded-2xl p-6 text-center card-hover group block no-underline"
               >
-                <span className="text-3xl">{cat.icon}</span>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">{cat.title}</h3>
-                  <p className="text-sm text-gray-500">{cat.desc}</p>
-                </div>
-                <ArrowRight size={20} className="text-gray-400" />
+                <div className="text-primary mb-3 group-hover:scale-110 transition-transform inline-block">{cat.icon}</div>
+                <h4 className="font-semibold text-gray-800 mb-2">{cat.title}</h4>
+                <p className="text-sm text-gray-500 mb-3">{cat.desc}</p>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Explore <ChevronRight size={14} />
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* STATS BANNER */}
-      <section className="py-12 bg-primary text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((s, i) => (
-              <div key={s.label} className={`${mounted ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: `${i * 0.1}s` }}>
-                <p className="text-3xl md:text-4xl font-bold mb-1">{s.value}</p>
-                <p className="text-white/70 text-sm">{s.label}</p>
+      {/* ═══════════ STATS ═══════════ */}
+      <section className="gradient-hero py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-3xl md:text-4xl font-bold text-white mb-1">{s.value}</p>
+                <p className="text-white/60 text-sm">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FEATURED COURSES */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
-                Featured Courses
-              </h2>
-              <p className="text-gray-500 mt-1">Start learning from our most popular courses</p>
-            </div>
-            <Link href="/courses" className="text-primary font-medium flex items-center gap-1 hover:underline">
-              View All <ArrowRight size={16} />
-            </Link>
+      {/* ═══════════ FEATURED COURSES ═══════════ */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              Featured <span className="text-secondary">Courses</span>
+            </h2>
+            <p className="text-gray-500">Start learning from our most popular courses</p>
           </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {courses.map((c, i) => (
-              <div
-                key={c.title}
-                className={`professional-course-card ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div className="relative h-40 overflow-hidden">
-                  <img src={c.image} alt={c.title} className="w-full h-full object-cover" />
-                  {c.price === 0 && (
-                    <span className="absolute top-3 left-3 bg-secondary text-primary-dark text-xs font-bold px-2 py-1 rounded-full">
-                      FREE
-                    </span>
-                  )}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {courses.map((c) => (
+              <div key={c.title} className="course-card">
+                <div className="course-card-image">
+                  <img src={c.image} alt={c.title} />
+                  {c.price === 0 && <span className="course-card-badge">FREE</span>}
                 </div>
-                <div className="p-4">
-                  <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">
-                    {c.category}
-                  </span>
-                  <h3 className="font-semibold text-gray-900 mt-2 mb-1 line-clamp-2">{c.title}</h3>
-                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
-                    <span>{c.lessons} lessons</span>
-                    <span>{c.students} students</span>
+                <div className="course-card-body">
+                  <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">{c.category}</span>
+                  <h5 className="font-semibold text-gray-800 mt-2 mb-2 text-sm leading-snug">{c.title}</h5>
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                    <BookOpen size={12} /> 10 hrs
+                    <span className="mx-1">•</span>
+                    <Users size={12} /> 120
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t">
+                  <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
                     <div className="flex items-center gap-2">
-                      <img 
-                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(c.teacher)}&background=7B2D3B&color=fff&size=24`} 
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(c.teacher)}&background=7B2D3B&color=fff&size=24`}
                         alt={c.teacher}
                         className="w-6 h-6 rounded-full"
                       />
-                      <span className="text-xs text-gray-500">{c.teacher}</span>
+                      <span className="text-xs text-gray-400">{c.teacher}</span>
                     </div>
-                    <span className={`font-bold ${c.price === 0 ? 'text-green-600' : 'text-primary'}`}>
-                      {c.price === 0 ? 'Free' : `₵${c.price}`}
+                    <span className={`font-bold text-sm ${c.price === 0 ? 'text-green-600' : 'text-primary'}`}>
+                      {c.price === 0 ? 'Free' : `₵${c.price.toFixed(2)}`}
                     </span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          <div className="text-center mt-10">
+            <Link href="/courses" className="btn-primary py-3 px-8 text-base">
+              View All Courses <ChevronRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="py-16 md:py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              How It Works
+      {/* ═══════════ HOW IT WORKS ═══════════ */}
+      <section className="py-20 bg-surface">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              How It <span className="text-secondary">Works</span>
             </h2>
             <p className="text-gray-500">Start your learning journey in 3 simple steps</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { num: '1', title: 'Create Account', desc: 'Sign up for free and complete your profile', icon: <BookMarked size={28} /> },
-              { num: '2', title: 'Choose Course', desc: 'Browse courses and enroll in your preferred ones', icon: <BookOpen size={28} /> },
-              { num: '3', title: 'Start Learning', desc: 'Access lessons and track your progress', icon: <TrendingUp size={28} /> },
-            ].map((step, i) => (
-              <div
-                key={step.num}
-                className={`text-center ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${i * 0.15}s` }}
-              >
-                <div className="relative inline-block mb-4">
-                  <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold">
-                    {step.num}
-                  </div>
+              { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
+              { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
+              { num: '3', title: 'Start Learning', desc: 'Access lessons, take quizzes, and join live classes from anywhere' },
+            ].map((step) => (
+              <div key={step.num} className="text-center">
+                <div className="w-20 h-20 rounded-full gradient-secondary flex items-center justify-center mx-auto mb-5">
+                  <span className="text-2xl font-bold text-primary-dark">{step.num}</span>
                 </div>
-                <div className="w-14 h-14 rounded-2xl bg-secondary/20 text-primary flex items-center justify-center mx-auto mb-4">
-                  {step.icon}
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
+                <h4 className="font-semibold text-gray-800 mb-2">{step.title}</h4>
                 <p className="text-sm text-gray-500">{step.desc}</p>
               </div>
             ))}
@@ -297,36 +233,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              What Students Say
+      {/* ═══════════ TESTIMONIALS ═══════════ */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              What Our <span className="text-secondary">Students</span> Say
             </h2>
-            <p className="text-gray-500">Hear from our successful students</p>
+            <p className="text-gray-500">Hear from students who have transformed their learning with us</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div
-                key={t.name}
-                className={`professional-testimonial ${mounted ? 'animate-slide-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${i * 0.15}s` }}
-              >
+            {testimonials.map((t) => (
+              <div key={t.name} className="bg-surface rounded-2xl p-6 card-hover">
                 <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} size={16} className="fill-secondary text-secondary" />
-                  ))}
+                  {[1,2,3,4,5].map((s) => <Star key={s} size={16} className="fill-secondary text-secondary" />)}
                 </div>
-                <p className="text-gray-600 mb-4">&ldquo;{t.quote}&rdquo;</p>
+                <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm">
-                    {t.avatar}
-                  </div>
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=D4A12A&color=7B2D3B&size=40`}
+                    alt={t.name}
+                    className="w-10 h-10 rounded-full"
+                  />
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
-                    <p className="text-xs text-gray-500">{t.role}</p>
+                    <p className="font-semibold text-sm text-gray-800">{t.name}</p>
+                    <p className="text-xs text-gray-400">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -335,190 +266,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="py-16 md:py-20 bg-gradient-to-r from-primary to-primary-dark text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            Ready to Start Learning?
-          </h2>
-          <p className="text-white/80 mb-8 max-w-xl mx-auto">
-            Join thousands of students achieving their academic goals with Prince Digital Academy
+      {/* ═══════════ CTA ═══════════ */}
+      <section className="gradient-hero py-20 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-secondary" />
+          <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-secondary" />
+        </div>
+        <div className="max-w-3xl mx-auto px-4 relative z-10">
+          <Award size={48} className="text-secondary mx-auto mb-6" />
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Start Your Learning Journey?</h2>
+          <p className="text-white/70 mb-8 text-lg">
+            Join thousands of students across Ghana who are achieving their academic goals with Prince Digital Academy
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="btn-cta-primary">
-              Create Free Account
-              <ArrowRight size={18} />
-            </Link>
-            <Link href="/courses" className="btn-cta-outline">
-              Browse Courses
-            </Link>
-          </div>
+          <Link href="/register" className="btn-secondary py-3 px-8 text-lg">
+            🚀 Get Started Now — It&apos;s Free!
+          </Link>
         </div>
       </section>
 
       <Footer />
-
-      <style jsx>{`
-        @keyframes slide-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .animate-slide-up {
-          animation: slide-up 0.5s ease-out forwards;
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.5s ease-out forwards;
-        }
-
-        .btn-primary-professional {
-          background: linear-gradient(135deg, #D4A12A 0%, #B4810A 100%);
-          color: #5C1F2A;
-          padding: 0.875rem 1.5rem;
-          border-radius: 0.75rem;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          transition: all 0.2s ease;
-        }
-
-        .btn-primary-professional:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 15px rgba(212, 161, 42, 0.3);
-        }
-
-        .btn-outline-professional {
-          background: transparent;
-          color: white;
-          padding: 0.875rem 1.5rem;
-          border-radius: 0.75rem;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          border: 2px solid rgba(255,255,255,0.3);
-          transition: all 0.2s ease;
-        }
-
-        .btn-outline-professional:hover {
-          background: rgba(255,255,255,0.1);
-          border-color: white;
-        }
-
-        .professional-card {
-          background: white;
-          border-radius: 1rem;
-          padding: 1.5rem;
-          border: 1px solid #e5e7eb;
-          transition: all 0.2s ease;
-        }
-
-        .professional-card:hover {
-          border-color: #D4A12A;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-
-        .professional-icon {
-          width: 50px;
-          height: 50px;
-          border-radius: 0.75rem;
-          background: linear-gradient(135deg, #7B2D3B 0%, #9B4D5B 100%);
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 1rem;
-        }
-
-        .professional-category-card {
-          background: white;
-          border-radius: 1rem;
-          padding: 1.25rem;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          border: 1px solid #e5e7eb;
-          transition: all 0.2s ease;
-          text-decoration: none;
-        }
-
-        .professional-category-card:hover {
-          border-color: #7B2D3B;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .professional-course-card {
-          background: white;
-          border-radius: 1rem;
-          overflow: hidden;
-          border: 1px solid #e5e7eb;
-          transition: all 0.2s ease;
-        }
-
-        .professional-course-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        }
-
-        .professional-testimonial {
-          background: white;
-          border-radius: 1rem;
-          padding: 1.5rem;
-          border: 1px solid #e5e7eb;
-        }
-
-        .btn-cta-primary {
-          background: white;
-          color: #7B2D3B;
-          padding: 1rem 2rem;
-          border-radius: 0.75rem;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          transition: all 0.2s ease;
-        }
-
-        .btn-cta-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(255,255,255,0.2);
-        }
-
-        .btn-cta-outline {
-          background: transparent;
-          color: white;
-          padding: 1rem 2rem;
-          border-radius: 0.75rem;
-          font-weight: 600;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          border: 2px solid rgba(255,255,255,0.5);
-          transition: all 0.2s ease;
-        }
-
-        .btn-cta-outline:hover {
-          background: rgba(255,255,255,0.1);
-        }
-
-        @media (max-width: 640px) {
-          .text-3xl sm\:text-4xl {
-            font-size: 1.875rem;
-          }
-          
-          .text-4xl sm\:text-5xl {
-            font-size: 2rem;
-          }
-        }
-      `}</style>
     </>
   );
 }
