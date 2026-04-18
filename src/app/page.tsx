@@ -1,7 +1,10 @@
+"use client";
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import PublicNavbar from '@/components/layout/PublicNavbar';
 import Footer from '@/components/layout/Footer';
-import { BookOpen, Video, HelpCircle, Smartphone, GraduationCap, FlaskConical, Briefcase, Palette, Sprout, School, ChevronRight, Star, Play, Users, Award } from 'lucide-react';
+import { BookOpen, Video, HelpCircle, Smartphone, GraduationCap, FlaskConical, Briefcase, Palette, Sprout, School, ChevronRight, Star, Play, Users, Award, Sparkles, ArrowRight } from 'lucide-react';
 
 const features = [
   { icon: <Users size={28} />, title: 'Expert Teachers', desc: 'Learn from experienced educators who are passionate about teaching' },
@@ -20,10 +23,10 @@ const categories = [
 ];
 
 const courses = [
-  { title: 'Core Mathematics for SHS', category: 'Science', teacher: 'Mr. Kofi Asante', price: 50, image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop' },
-  { title: 'English Language Mastery', category: 'General', teacher: 'Mrs. Ama Mensah', price: 45, image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop' },
-  { title: 'Integrated Science JHS', category: 'JHS', teacher: 'Mr. Yaw Boateng', price: 0, image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop' },
-  { title: 'Financial Accounting SHS', category: 'Business', teacher: 'Mr. Daniel Osei', price: 60, image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop' },
+  { title: 'Core Mathematics for SHS', category: 'Science', teacher: 'Mr. Kofi Asante', price: 50, image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=250&fit=crop', lessons: 24, students: 120 },
+  { title: 'English Language Mastery', category: 'General', teacher: 'Mrs. Ama Mensah', price: 45, image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop', lessons: 18, students: 89 },
+  { title: 'Integrated Science JHS', category: 'JHS', teacher: 'Mr. Yaw Boateng', price: 0, image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop', lessons: 30, students: 156 },
+  { title: 'Financial Accounting SHS', category: 'Business', teacher: 'Mr. Daniel Osei', price: 60, image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop', lessons: 22, students: 67 },
 ];
 
 const testimonials = [
@@ -33,58 +36,145 @@ const testimonials = [
 ];
 
 const stats = [
-  { value: '500+', label: 'Active Students' },
-  { value: '50+', label: 'Online Courses' },
-  { value: '20+', label: 'Expert Teachers' },
-  { value: '95%', label: 'Success Rate' },
+  { value: '500+', label: 'Active Students', suffix: '' },
+  { value: '50+', label: 'Online Courses', suffix: '' },
+  { value: '20+', label: 'Expert Teachers', suffix: '' },
+  { value: '95%', label: 'Success Rate', suffix: '%' },
 ];
 
+const steps = [
+  { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
+  { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
+  { num: '3', title: 'Start Learning', desc: 'Access lessons, take quizzes, and join live classes from anywhere' },
+];
+
+function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsVisible(true);
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const element = document.getElementById(`anim-section-${delay}`);
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [hasAnimated, delay]);
+
+  return (
+    <div
+      id={`anim-section-${delay}`}
+      className={`transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      style={{ transitionDelay: `${delay * 100}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function AnimatedCard({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsVisible(true);
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const element = document.getElementById(`anim-card-${delay}`);
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [hasAnimated, delay]);
+
+  return (
+    <div
+      id={`anim-card-${delay}`}
+      className={`transition-all duration-500 ease-out hover:-translate-y-2 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+      style={{ transitionDelay: `${delay * 80}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <>
       <PublicNavbar />
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="hero-section relative">
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <section className="hero-section relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-10 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10 py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-secondary mb-6">
-                <Star size={14} className="fill-secondary" />
+            <div className={`${mounted ? 'animate-slide-in-left' : 'opacity-0'}`}>
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-secondary mb-6 animate-bounce" style={{ animationDuration: '3s' }}>
+                <Sparkles size={14} className="animate-spin" style={{ animationDuration: '2s' }} />
                 Smart Learning, Real Results
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 Unlock Your{' '}
-                <span className="text-secondary">Potential</span>{' '}
+                <span className="text-secondary animate-pulse">Potential</span>{' '}
                 With Quality Education
               </h1>
               <p className="text-lg text-white/70 mb-8 max-w-lg">
                 Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/courses" className="btn-secondary py-3 px-6 text-base">
+                <Link href="/courses" className="btn-secondary py-3 px-6 text-base hover:scale-105 transition-transform">
                   <Play size={18} /> Explore Courses
                 </Link>
-                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 transition-all inline-flex items-center gap-2">
+                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 hover:scale-105 transition-all inline-flex items-center gap-2">
                   Get Started Free <ChevronRight size={18} />
                 </Link>
               </div>
 
               <div className="grid grid-cols-3 gap-6 mt-12">
-                {[{ v: '500+', l: 'Students' }, { v: '50+', l: 'Courses' }, { v: '20+', l: 'Teachers' }].map((s) => (
-                  <div key={s.l} className="text-center">
-                    <p className="text-2xl md:text-3xl font-bold text-white">{s.v}</p>
-                    <p className="text-sm text-white/50">{s.l}</p>
+                {stats.map((s, i) => (
+                  <div key={s.label} className={`text-center ${mounted ? 'animate-count-up' : 'opacity-0'}`} style={{ animationDelay: `${i * 0.2}s` }}>
+                    <p className="text-2xl md:text-3xl font-bold text-white">{s.value}</p>
+                    <p className="text-sm text-white/50">{s.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="hidden lg:flex justify-center">
+            <div className={`hidden lg:block ${mounted ? 'animate-float' : 'opacity-0'}`}>
               <div className="relative">
-                <div className="w-80 h-80 rounded-full bg-secondary/20 animate-pulse-glow" />
+                <div className="w-80 h-80 rounded-full bg-gradient-to-br from-secondary/30 to-primary/20 animate-pulse-glow" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <GraduationCap size={120} className="text-white/20" />
+                  <div className="relative">
+                    <GraduationCap size={100} className="text-white/30 animate-bounce" style={{ animationDuration: '3s' }} />
+                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-secondary rounded-full flex items-center justify-center animate-pulse">
+                      <Star size={20} className="text-primary-dark" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,21 +185,26 @@ export default function HomePage() {
       {/* ═══════════ FEATURES ═══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              Why Choose <span className="text-secondary">Prince Digital</span> Academy?
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">We provide everything you need to succeed in your academic journey</p>
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                Why Choose <span className="text-secondary">Prince Digital</span> Academy?
+              </h2>
+              <p className="text-gray-500 max-w-xl mx-auto">We provide everything you need to succeed in your academic journey</p>
+            </div>
+          </AnimatedSection>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="bg-surface rounded-2xl p-6 text-center card-hover group">
-                <div className="w-16 h-16 rounded-2xl gradient-primary text-white flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  {f.icon}
+            {features.map((f, i) => (
+              <AnimatedCard key={f.title} delay={i}>
+                <div className="bg-surface rounded-2xl p-6 text-center card-hover group h-full">
+                  <div className="w-16 h-16 rounded-2xl gradient-primary text-white flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                    {f.icon}
+                  </div>
+                  <h4 className="font-semibold text-gray-800 mb-2 group-hover:text-primary transition-colors">{f.title}</h4>
+                  <p className="text-sm text-gray-500">{f.desc}</p>
                 </div>
-                <h4 className="font-semibold text-gray-800 mb-2">{f.title}</h4>
-                <p className="text-sm text-gray-500">{f.desc}</p>
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -118,26 +213,30 @@ export default function HomePage() {
       {/* ═══════════ CATEGORIES ═══════════ */}
       <section className="py-20 bg-surface">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              Browse by <span className="text-secondary">Category</span>
-            </h2>
-            <p className="text-gray-500">Find the perfect course for your academic needs</p>
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                Browse by <span className="text-secondary">Category</span>
+              </h2>
+              <p className="text-gray-500">Find the perfect course for your academic needs</p>
+            </div>
+          </AnimatedSection>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/courses?category=${cat.slug}`}
-                className="bg-white rounded-2xl p-6 text-center card-hover group block no-underline"
-              >
-                <div className="text-primary mb-3 group-hover:scale-110 transition-transform inline-block">{cat.icon}</div>
-                <h4 className="font-semibold text-gray-800 mb-2">{cat.title}</h4>
-                <p className="text-sm text-gray-500 mb-3">{cat.desc}</p>
-                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                  Explore <ChevronRight size={14} />
-                </span>
-              </Link>
+            {categories.map((cat, i) => (
+              <AnimatedCard key={cat.slug} delay={i}>
+                <Link
+                  href={`/courses?category=${cat.slug}`}
+                  className="bg-white rounded-2xl p-6 text-center card-hover group block no-underline h-full"
+                >
+                  <div className="text-primary mb-3 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 inline-block">{cat.icon}</div>
+                  <h4 className="font-semibold text-gray-800 mb-2 group-hover:text-primary transition-colors">{cat.title}</h4>
+                  <p className="text-sm text-gray-500 mb-3">{cat.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">
+                    Explore <ChevronRight size={14} />
+                  </span>
+                </Link>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -147,11 +246,13 @@ export default function HomePage() {
       <section className="gradient-hero py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-3xl md:text-4xl font-bold text-white mb-1">{s.value}</p>
-                <p className="text-white/60 text-sm">{s.label}</p>
-              </div>
+            {stats.map((s, i) => (
+              <AnimatedCard key={s.label} delay={i}>
+                <div className="text-center hover:scale-110 transition-transform duration-300">
+                  <p className="text-3xl md:text-4xl font-bold text-white mb-1">{s.value}</p>
+                  <p className="text-white/60 text-sm">{s.label}</p>
+                </div>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -160,74 +261,82 @@ export default function HomePage() {
       {/* ═══════════ FEATURED COURSES ═══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              Featured <span className="text-secondary">Courses</span>
-            </h2>
-            <p className="text-gray-500">Start learning from our most popular courses</p>
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                Featured <span className="text-secondary">Courses</span>
+              </h2>
+              <p className="text-gray-500">Start learning from our most popular courses</p>
+            </div>
+          </AnimatedSection>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {courses.map((c) => (
-              <div key={c.title} className="course-card">
-                <div className="course-card-image">
-                  <img src={c.image} alt={c.title} />
-                  {c.price === 0 && <span className="course-card-badge">FREE</span>}
-                </div>
-                <div className="course-card-body">
-                  <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">{c.category}</span>
-                  <h5 className="font-semibold text-gray-800 mt-2 mb-2 text-sm leading-snug">{c.title}</h5>
-                  <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
-                    <BookOpen size={12} /> 10 hrs
-                    <span className="mx-1">•</span>
-                    <Users size={12} /> 120
+            {courses.map((c, i) => (
+              <AnimatedCard key={c.title} delay={i}>
+                <div className="course-card group">
+                  <div className="course-card-image overflow-hidden">
+                    <img src={c.image} alt={c.title} className="group-hover:scale-110 transition-transform duration-500" />
+                    {c.price === 0 && <span className="course-card-badge">FREE</span>}
                   </div>
-                  <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(c.teacher)}&background=7B2D3B&color=fff&size=24`}
-                        alt={c.teacher}
-                        className="w-6 h-6 rounded-full"
-                      />
-                      <span className="text-xs text-gray-400">{c.teacher}</span>
+                  <div className="course-card-body">
+                    <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">{c.category}</span>
+                    <h5 className="font-semibold text-gray-800 mt-2 mb-2 text-sm leading-snug group-hover:text-primary transition-colors">{c.title}</h5>
+                    <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                      <BookOpen size={12} /> {c.lessons} hrs
+                      <span className="mx-1">•</span>
+                      <Users size={12} /> {c.students}
                     </div>
-                    <span className={`font-bold text-sm ${c.price === 0 ? 'text-green-600' : 'text-primary'}`}>
-                      {c.price === 0 ? 'Free' : `₵${c.price.toFixed(2)}`}
-                    </span>
+                    <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(c.teacher)}&background=7B2D3B&color=fff&size=24`}
+                          alt={c.teacher}
+                          className="w-6 h-6 rounded-full"
+                        />
+                        <span className="text-xs text-gray-400">{c.teacher}</span>
+                      </div>
+                      <span className={`font-bold text-sm ${c.price === 0 ? 'text-green-600' : 'text-primary'}`}>
+                        {c.price === 0 ? 'Free' : `₵${c.price.toFixed(2)}`}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </AnimatedCard>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link href="/courses" className="btn-primary py-3 px-8 text-base">
-              View All Courses <ChevronRight size={18} />
-            </Link>
-          </div>
+          <AnimatedSection delay={2}>
+            <div className="text-center mt-10">
+              <Link href="/courses" className="btn-primary py-3 px-8 text-base hover:scale-105 hover:shadow-lg transition-all">
+                View All Courses <ChevronRight size={18} />
+              </Link>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* ═══════════ HOW IT WORKS ═══════════ */}
       <section className="py-20 bg-surface">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              How It <span className="text-secondary">Works</span>
-            </h2>
-            <p className="text-gray-500">Start your learning journey in 3 simple steps</p>
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                How It <span className="text-secondary">Works</span>
+              </h2>
+              <p className="text-gray-500">Start your learning journey in 3 simple steps</p>
+            </div>
+          </AnimatedSection>
+
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
-              { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
-              { num: '3', title: 'Start Learning', desc: 'Access lessons, take quizzes, and join live classes from anywhere' },
-            ].map((step) => (
-              <div key={step.num} className="text-center">
-                <div className="w-20 h-20 rounded-full gradient-secondary flex items-center justify-center mx-auto mb-5">
-                  <span className="text-2xl font-bold text-primary-dark">{step.num}</span>
+            {steps.map((step, i) => (
+              <AnimatedCard key={step.num} delay={i}>
+                <div className="text-center">
+                  <div className="w-20 h-20 rounded-full gradient-secondary flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-2xl font-bold text-primary-dark">{step.num}</span>
+                  </div>
+                  <h4 className="font-semibold text-gray-800 mb-2 group-hover:text-primary transition-colors">{step.title}</h4>
+                  <p className="text-sm text-gray-500">{step.desc}</p>
                 </div>
-                <h4 className="font-semibold text-gray-800 mb-2">{step.title}</h4>
-                <p className="text-sm text-gray-500">{step.desc}</p>
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -236,31 +345,36 @@ export default function HomePage() {
       {/* ═══════════ TESTIMONIALS ═══════════ */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-              What Our <span className="text-secondary">Students</span> Say
-            </h2>
-            <p className="text-gray-500">Hear from students who have transformed their learning with us</p>
-          </div>
+          <AnimatedSection delay={0}>
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                What Our <span className="text-secondary">Students</span> Say
+              </h2>
+              <p className="text-gray-500">Hear from students who have transformed their learning with us</p>
+            </div>
+          </AnimatedSection>
+
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div key={t.name} className="bg-surface rounded-2xl p-6 card-hover">
-                <div className="flex gap-1 mb-4">
-                  {[1,2,3,4,5].map((s) => <Star key={s} size={16} className="fill-secondary text-secondary" />)}
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <img
-                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=D4A12A&color=7B2D3B&size=40`}
-                    alt={t.name}
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div>
-                    <p className="font-semibold text-sm text-gray-800">{t.name}</p>
-                    <p className="text-xs text-gray-400">{t.role}</p>
+            {testimonials.map((t, i) => (
+              <AnimatedCard key={t.name} delay={i}>
+                <div className="bg-surface rounded-2xl p-6 card-hover group h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[1,2,3,4,5].map((s) => <Star key={s} size={16} className="fill-secondary text-secondary group-hover:scale-110 transition-transform" style={{ animationDelay: `${s * 0.1}s` }} />)}
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=D4A12A&color=7B2D3B&size=40`}
+                      alt={t.name}
+                      className="w-10 h-10 rounded-full group-hover:scale-110 transition-transform"
+                    />
+                    <div>
+                      <p className="font-semibold text-sm text-gray-800">{t.name}</p>
+                      <p className="text-xs text-gray-400">{t.role}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         </div>
@@ -269,22 +383,54 @@ export default function HomePage() {
       {/* ═══════════ CTA ═══════════ */}
       <section className="gradient-hero py-20 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-secondary" />
-          <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-secondary" />
+          <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-secondary animate-pulse" />
+          <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-secondary animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
-        <div className="max-w-3xl mx-auto px-4 relative z-10">
-          <Award size={48} className="text-secondary mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Start Your Learning Journey?</h2>
-          <p className="text-white/70 mb-8 text-lg">
-            Join thousands of students across Ghana who are achieving their academic goals with Prince Digital Academy
-          </p>
-          <Link href="/register" className="btn-secondary py-3 px-8 text-lg">
-            🚀 Get Started Now — It&apos;s Free!
-          </Link>
-        </div>
+        <AnimatedSection delay={0}>
+          <div className="max-w-3xl mx-auto px-4 relative z-10">
+            <Award size={48} className="text-secondary mx-auto mb-6 animate-bounce" style={{ animationDuration: '2s' }} />
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Start Your Learning Journey?</h2>
+            <p className="text-white/70 mb-8 text-lg">
+              Join thousands of students across Ghana who are achieving their academic goals with Prince Digital Academy
+            </p>
+            <Link href="/register" className="btn-secondary py-3 px-8 text-lg hover:scale-105 transition-transform inline-flex items-center gap-2">
+              <span>🚀 Get Started Now — It&apos;s Free!</span>
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </AnimatedSection>
       </section>
 
       <Footer />
+
+      <style jsx>{`
+        @keyframes slide-in-left {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
+        }
+
+        .animate-slide-in-left {
+          animation: slide-in-left 0.6s ease-out forwards;
+        }
+
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 30px rgba(212, 161, 42, 0.3); }
+          50% { box-shadow: 0 0 60px rgba(212, 161, 42, 0.5); }
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 3s ease-in-out infinite;
+        }
+      `}</style>
     </>
   );
 }
