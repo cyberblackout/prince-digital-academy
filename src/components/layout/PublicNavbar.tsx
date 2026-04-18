@@ -21,14 +21,14 @@ export default function PublicNavbar() {
     <>
       {/* Main Nav */}
       <nav className="bg-white sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 no-underline">
-              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-                <GraduationCap size={22} className="text-white" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl gradient-primary flex items-center justify-center">
+                <GraduationCap size={20} className="text-white" />
               </div>
-              <span className="font-bold text-lg text-gray-800 hidden sm:block">{SITE_NAME}</span>
+              <span className="font-bold text-base sm:text-lg text-gray-800 hidden xs:block">{SITE_NAME}</span>
             </Link>
 
             {/* Desktop Links */}
@@ -40,16 +40,17 @@ export default function PublicNavbar() {
             </div>
 
             {/* Right Side - Support Icon + Auth */}
-            <div className="flex items-center gap-2 sm:gap-4">
-              {/* Support Icon - Shows on all devices */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Support Icon with Text - Shows on all devices */}
               <a
                 href="https://wa.me/233599822088"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 transition-all duration-200 group"
                 title="Contact Support"
               >
-                <Headset size={18} className="text-primary" />
+                <Headset size={16} className="text-primary group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium text-primary hidden xs:hidden sm:block">Support</span>
               </a>
 
               {/* Auth Buttons */}
@@ -74,8 +75,9 @@ export default function PublicNavbar() {
 
               {/* Mobile Toggle */}
               <button
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
                 onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -87,17 +89,17 @@ export default function PublicNavbar() {
         {mobileOpen && (
           <div className="lg:hidden border-t border-gray-100 bg-white animate-slide-up">
             <div className="p-4 space-y-2">
-              <Link href="/" className="block py-2 px-3 rounded-lg hover:bg-gray-50 text-gray-700" onClick={() => setMobileOpen(false)}>Home</Link>
-              <Link href="/courses" className="block py-2 px-3 rounded-lg hover:bg-gray-50 text-gray-700" onClick={() => setMobileOpen(false)}>Courses</Link>
-              <Link href="/about" className="block py-2 px-3 rounded-lg hover:bg-gray-50 text-gray-700" onClick={() => setMobileOpen(false)}>About</Link>
-              <Link href="/contact" className="block py-2 px-3 rounded-lg hover:bg-gray-50 text-gray-700" onClick={() => setMobileOpen(false)}>Contact</Link>
-              <hr className="my-2" />
+              <Link href="/" className="block py-2.5 px-4 rounded-lg hover:bg-gray-50 text-gray-700 font-medium" onClick={() => setMobileOpen(false)}>Home</Link>
+              <Link href="/courses" className="block py-2.5 px-4 rounded-lg hover:bg-gray-50 text-gray-700 font-medium" onClick={() => setMobileOpen(false)}>Courses</Link>
+              <Link href="/about" className="block py-2.5 px-4 rounded-lg hover:bg-gray-50 text-gray-700 font-medium" onClick={() => setMobileOpen(false)}>About</Link>
+              <Link href="/contact" className="block py-2.5 px-4 rounded-lg hover:bg-gray-50 text-gray-700 font-medium" onClick={() => setMobileOpen(false)}>Contact</Link>
+              <hr className="my-3 border-gray-100" />
               {user ? (
-                <Link href={getDashboardLink()} className="block btn-primary text-center text-sm" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                <Link href={getDashboardLink()} className="block btn-primary text-center text-sm py-2.5" onClick={() => setMobileOpen(false)}>Dashboard</Link>
               ) : (
                 <>
-                  <Link href="/login" className="block py-2 px-3 rounded-lg hover:bg-gray-50 text-gray-700" onClick={() => setMobileOpen(false)}>Sign In</Link>
-                  <Link href="/register" className="block btn-secondary text-center text-sm" onClick={() => setMobileOpen(false)}>Get Started</Link>
+                  <Link href="/login" className="block py-2.5 px-4 rounded-lg hover:bg-gray-50 text-gray-700 font-medium" onClick={() => setMobileOpen(false)}>Sign In</Link>
+                  <Link href="/register" className="block btn-secondary text-center text-sm py-2.5 mt-2" onClick={() => setMobileOpen(false)}>Get Started</Link>
                 </>
               )}
             </div>

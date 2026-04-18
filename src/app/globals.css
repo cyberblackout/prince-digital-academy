@@ -86,6 +86,11 @@ html {
   scroll-behavior: smooth;
 }
 
+@layer utilities {
+  .xs\:block { display: block; }
+  .xs\:hidden { display: none; }
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-surface);
