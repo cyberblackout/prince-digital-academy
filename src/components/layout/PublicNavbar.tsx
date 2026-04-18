@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useAuth } from '@/providers/AuthProvider';
 import { SITE_NAME } from '@/lib/constants';
-import { GraduationCap, Menu, X, Headphones } from 'lucide-react';
+import { GraduationCap, Menu, X, Headset } from 'lucide-react';
 import { useState } from 'react';
 
 export default function PublicNavbar() {
@@ -41,15 +41,15 @@ export default function PublicNavbar() {
 
             {/* Right Side - Support Icon + Auth */}
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Support Icon - Hidden on small mobile, visible on larger screens */}
+              {/* Support Icon - Shows on all devices */}
               <a
                 href="https://wa.me/233599822088"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                 title="Contact Support"
               >
-                <Headphones size={20} className="text-primary" />
+                <Headset size={18} className="text-primary" />
               </a>
 
               {/* Auth Buttons */}
