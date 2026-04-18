@@ -124,68 +124,46 @@ export default function HomePage() {
       <PublicNavbar />
 
       {/* ═══════════ HERO ═══════════ */}
-      <section className="hero-section position-relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="position-absolute top-0 start-0 w-100 h-100">
-          <div className="position-absolute top-0 end-0 w-50 h-50 bg-secondary opacity-10 rounded-circle translate-middle-x" />
-          <div className="position-absolute bottom-0 start-0 w-50 h-50 bg-primary opacity-10 rounded-circle translate-middle-x" />
-        </div>
-
-        <div className="container position-relative z-1 py-4 py-md-5">
-          <div className="row align-items-center min-vh-100 py-5">
-            {/* Left Content */}
-            <div className="col-12 col-lg-6">
-              {/* Badge */}
-              <div className="d-inline-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2 mb-3 mb-md-4">
-                <Sparkles size={14} className="text-warning" />
-                <span className="text-white small">Smart Learning</span>
+      <section className="hero-section relative">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-secondary mb-6">
+                <Star size={14} className="fill-secondary" />
+                Smart Learning, Real Results
               </div>
-
-              {/* Main Heading */}
-              <h1 className="display-5 display-md-4 fw-bold text-white mb-3 mb-md-4">
-                Unlock Your <span className="text-warning">Potential</span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                Unlock Your{' '}
+                <span className="text-secondary">Potential</span>{' '}
+                With Quality Education
               </h1>
-
-              <p className="lead text-white-50 mb-4 mb-md-5">
-                Quality education for JHS, SHS & beyond. Learn from expert teachers across Ghana.
+              <p className="text-lg text-white/70 mb-8 max-w-lg">
+                Join thousands of students learning from expert teachers. Master JHS, SHS, and professional courses from anywhere in Ghana.
               </p>
-
-              {/* CTA Buttons */}
-              <div className="d-flex flex-wrap gap-3 mb-4 mb-md-5">
-                <Link href="/courses" className="btn btn-warning fw-semibold px-4 py-2">
+              <div className="flex flex-wrap gap-4">
+                <Link href="/courses" className="btn-secondary py-3 px-6 text-base">
                   <Play size={18} /> Explore Courses
                 </Link>
-                <Link href="/register" className="btn btn-outline-light fw-semibold px-4 py-2">
-                  Get Started
+                <Link href="/register" className="border-2 border-white/30 text-white py-3 px-6 rounded-xl font-semibold hover:bg-white/10 transition-all inline-flex items-center gap-2">
+                  Get Started Free <ChevronRight size={18} />
                 </Link>
               </div>
 
-              {/* Stats Row */}
-              <div className="d-flex flex-wrap gap-4 gap-md-5">
-                {stats.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <h3 className="h4 fw-bold text-white mb-0">{s.value}</h3>
-                    <p className="small text-white-50 mb-0">{s.label}</p>
+              <div className="grid grid-cols-3 gap-6 mt-12">
+                {[{ v: '500+', l: 'Students' }, { v: '50+', l: 'Courses' }, { v: '20+', l: 'Teachers' }].map((s) => (
+                  <div key={s.l} className="text-center">
+                    <p className="text-2xl md:text-3xl font-bold text-white">{s.v}</p>
+                    <p className="text-sm text-white/50">{s.l}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right Visual - Hidden on mobile, shown on md+ */}
-            <div className="col-12 col-lg-6 d-none d-md-block text-center">
-              <div className="position-relative d-inline-block">
-                <div className="bg-white bg-opacity-10 rounded-circle p-5" style={{ width: '280px', height: '280px' }}>
-                  <GraduationCap size={100} className="text-white opacity-25" />
-                </div>
-                {/* Floating badges */}
-                <div className="position-absolute top-0 end-0 bg-warning rounded-pill px-3 py-2 shadow">
-                  <span className="fw-bold text-dark small">95% Pass</span>
-                </div>
-                <div className="position-absolute bottom-0 start-0 bg-white rounded-3 shadow px-3 py-2">
-                  <div className="d-flex align-items-center gap-2">
-                    <Users size={16} className="text-success" />
-                    <span className="fw-bold text-dark small">500+ Students</span>
-                  </div>
+            <div className="hidden lg:flex justify-center">
+              <div className="relative">
+                <div className="w-80 h-80 rounded-full bg-secondary/20 animate-pulse-glow" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <GraduationCap size={120} className="text-white/20" />
                 </div>
               </div>
             </div>
