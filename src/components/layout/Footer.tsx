@@ -83,7 +83,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
           <p className="text-xs text-gray-400 text-center flex items-center gap-1">
-            Built by <span className="font-semibold text-white">CyberBlackou</span>
+            Built by <span className="font-semibold text-white">CyberBlacqou</span>
             <Wifi size={10} className="text-secondary" />
             <span className="font-semibold text-secondary">DevX</span>
           </p>
