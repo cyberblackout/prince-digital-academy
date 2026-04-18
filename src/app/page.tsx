@@ -53,7 +53,9 @@ const heroImages = [
   'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=300&fit=crop',
 ];
 
-const heroImagesSecond = [...heroImages]; // Duplicate for seamless loop
+const heroImagesSecond = [...heroImages];
+
+const steps = [
   { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
   { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
   { num: '3', title: 'Start Learning', desc: 'Access lessons, take quizzes, and join live classes from anywhere' },
