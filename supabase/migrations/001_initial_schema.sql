@@ -180,6 +180,7 @@ CREATE TABLE lessons (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER lessons_updated_at BEFORE UPDATE ON lessons FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -321,6 +322,7 @@ CREATE TABLE assignments (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER assignments_updated_at BEFORE UPDATE ON assignments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -375,6 +377,7 @@ CREATE TABLE exams (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER exams_updated_at BEFORE UPDATE ON exams FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -412,6 +415,7 @@ CREATE TABLE quizzes (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER quizzes_updated_at BEFORE UPDATE ON quizzes FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -475,6 +479,7 @@ CREATE TABLE live_classes (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER live_classes_updated_at BEFORE UPDATE ON live_classes FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -502,6 +507,7 @@ CREATE TABLE announcements (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER announcements_updated_at BEFORE UPDATE ON announcements FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -520,6 +526,7 @@ CREATE TABLE notices (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER notices_updated_at BEFORE UPDATE ON notices FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -541,6 +548,7 @@ CREATE TABLE books (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER books_updated_at BEFORE UPDATE ON books FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -622,6 +630,7 @@ CREATE TABLE staff_details (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER staff_details_updated_at BEFORE UPDATE ON staff_details FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- =====================
@@ -649,6 +658,7 @@ CREATE TABLE settings (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
 CREATE TRIGGER settings_updated_at BEFORE UPDATE ON settings FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 INSERT INTO settings (setting_key, setting_value) VALUES
@@ -800,13 +810,17 @@ CREATE POLICY "incidents_manage" ON incidents FOR ALL USING (EXISTS (SELECT 1 FR
 -- Public read tables (no RLS needed)
 ALTER TABLE roles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "roles_select" ON roles FOR SELECT USING (true);
+
 ALTER TABLE classes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "classes_select" ON classes FOR SELECT USING (true);
+
 ALTER TABLE course_categories ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "categories_select" ON course_categories FOR SELECT USING (true);
 CREATE POLICY "categories_manage" ON course_categories FOR ALL USING (EXISTS (SELECT 1 FROM users u WHERE u.id = auth.uid() AND u.role_id IN (1,2)));
+
 ALTER TABLE subjects ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "subjects_select" ON subjects FOR SELECT USING (true);
+
 ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "settings_select" ON settings FOR SELECT USING (true);
 CREATE POLICY "settings_manage" ON settings FOR ALL USING (EXISTS (SELECT 1 FROM users u WHERE u.id = auth.uid() AND u.role_id IN (1,2)));
@@ -814,8 +828,7 @@ CREATE POLICY "settings_manage" ON settings FOR ALL USING (EXISTS (SELECT 1 FROM
 -- =========================================================
 -- STORAGE BUCKETS
 -- =========================================================
--- Run these in Supabase SQL editor or via dashboard:
--- INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true);
--- INSERT INTO storage.buckets (id, name, public) VALUES ('course-thumbnails', 'course-thumbnails', true);
--- INSERT INTO storage.buckets (id, name, public) VALUES ('assignments', 'assignments', false);
--- INSERT INTO storage.buckets (id, name, public) VALUES ('documents', 'documents', false);
+INSERT INTO storage.buckets (id, name, public) VALUES ('avatars', 'avatars', true);
+INSERT INTO storage.buckets (id, name, public) VALUES ('course-thumbnails', 'course-thumbnails', true);
+INSERT INTO storage.buckets (id, name, public) VALUES ('assignments', 'assignments', false);
+INSERT INTO storage.buckets (id, name, public) VALUES ('documents', 'documents', false);

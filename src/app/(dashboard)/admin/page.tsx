@@ -53,8 +53,11 @@ export default function AdminDashboard() {
           *, users!payments_user_id_fkey(first_name, last_name)
         `).order('created_at', { ascending: false }).limit(5);
         setRecentPayments(payData || []);
-      } catch (err) { console.error('Dashboard fetch error:', err); }
-      setLoading(false);
+      } catch (err) { 
+        console.error('Dashboard fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
