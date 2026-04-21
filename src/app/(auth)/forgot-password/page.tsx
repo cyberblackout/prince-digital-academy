@@ -17,7 +17,7 @@ export default function ForgotPasswordPage() {
     setError('');
     setLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://prince-digital-academy.vercel.app/api/auth/callback?type=recovery',
+      redirectTo: `${window.location.origin}/api/auth/callback?type=recovery`,
     });
     if (error) { setError(error.message); } else { setSent(true); }
     setLoading(false);

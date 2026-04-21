@@ -29,26 +29,45 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  // IMPORTANT: Do not write logic between createServerClient and supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const publicPaths = ['/', '/about', '/contact', '/courses', '/login', '/register', '/forgot-password', '/api'];
-  const isPublicPath = publicPaths.some(path => request.nextUrl.pathname.startsWith(path));
+  // Protected routes - redirect to login if not authenticated
+  const protectedPaths = ['/admin', '/teacher', '/student', '/profile'];
+  const isProtectedPath = protectedPaths.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
 
-  if (!user && !isPublicPath) {
+  if (isProtectedPath && !user) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     url.searchParams.set('redirect', request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
-  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register')) {
-    const { data: profile } = await supabase.from('users').select('role_id').eq('id', user.id).single();
-    let destination = '/student';
-    if (profile?.role_id === 1 || profile?.role_id === 2) destination = '/admin';
-    else if (profile?.role_id === 3) destination = '/teacher';
-    
+  // Redirect logged-in users away from auth pages
+  const authPaths = ['/login', '/register', '/forgot-password'];
+  const isAuthPath = authPaths.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
+
+  if (isAuthPath && user) {
+    // Get user role from the database
+    const { data: userData } = await supabase
+      .from('users')
+      .select('role_id')
+      .eq('id', user.id)
+      .single();
+
+    const roleId = userData?.role_id || 4;
+    let dashboardPath = '/student';
+    if (roleId === 1 || roleId === 2) dashboardPath = '/admin';
+    else if (roleId === 3) dashboardPath = '/teacher';
+
     const url = request.nextUrl.clone();
-    url.pathname = destination;
+    url.pathname = dashboardPath;
     return NextResponse.redirect(url);
   }
 

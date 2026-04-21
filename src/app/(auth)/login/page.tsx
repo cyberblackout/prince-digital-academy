@@ -41,18 +41,9 @@ function LoginForm() {
   };
 
   const handleGoogleLogin = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    let redirectPath = '/student';
-    if (user) {
-      const { data: profile } = await supabase.from('users').select('role_id').eq('id', user.id).single();
-      if (profile?.role_id === 1 || profile?.role_id === 2) redirectPath = '/admin';
-      else if (profile?.role_id === 3) redirectPath = '/teacher';
-    }
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: `https://prince-digital-academy.vercel.app/api/auth/callback?next=${redirectPath}`,
-      },
+      options: { redirectTo: `${window.location.origin}/api/auth/callback` },
     });
   };
 
