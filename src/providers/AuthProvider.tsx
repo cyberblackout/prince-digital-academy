@@ -54,9 +54,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    let isMounted = true;
     const getSession = async () => {
       try {
         const { data: { user: authUser } } = await supabase.auth.getUser();
+        if (!isMounted) return;
         setSupabaseUser(authUser);
         if (authUser) {
           await fetchUserProfile(authUser);
@@ -64,14 +66,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         console.error('Auth session error:', err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
-    };
 
     getSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!isMounted) return;
         try {
           setSupabaseUser(session?.user ?? null);
           if (session?.user) {
@@ -82,12 +84,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } catch (err) {
           console.error('Auth state change error:', err);
         } finally {
-          setLoading(false);
+          if (isMounted) setLoading(false);
         }
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
