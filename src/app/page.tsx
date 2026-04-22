@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import PublicNavbar from '@/components/layout/PublicNavbar';
 import Footer from '@/components/layout/Footer';
@@ -53,8 +53,6 @@ const heroImages = [
   'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=300&fit=crop',
 ];
 
-const heroImagesSecond = [...heroImages];
-
 const steps = [
   { num: '1', title: 'Create Account', desc: 'Sign up for free and set up your student profile in minutes' },
   { num: '2', title: 'Choose Course', desc: 'Browse our catalog and enroll in courses that match your goals' },
@@ -63,14 +61,15 @@ const steps = [
 
 function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
+    if (hasAnimatedRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
           setIsVisible(true);
-          setHasAnimated(true);
+          hasAnimatedRef.current = true;
         }
       },
       { threshold: 0.1 }
@@ -80,7 +79,7 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
     if (element) observer.observe(element);
 
     return () => observer.disconnect();
-  }, [hasAnimated, delay]);
+  }, [delay]);
 
   return (
     <div
@@ -95,14 +94,15 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 
 function AnimatedCard({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
+    if (hasAnimatedRef.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting && !hasAnimatedRef.current) {
           setIsVisible(true);
-          setHasAnimated(true);
+          hasAnimatedRef.current = true;
         }
       },
       { threshold: 0.1 }
@@ -112,7 +112,7 @@ function AnimatedCard({ children, className = '', delay = 0 }: { children: React
     if (element) observer.observe(element);
 
     return () => observer.disconnect();
-  }, [hasAnimated, delay]);
+  }, [delay]);
 
   return (
     <div
@@ -126,12 +126,6 @@ function AnimatedCard({ children, className = '', delay = 0 }: { children: React
 }
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <>
       <PublicNavbar />
@@ -139,7 +133,7 @@ export default function HomePage() {
       {/* ═══════════ IMAGE MARQUEE ═══════════ */}
       <div className="marquee-container">
         <div className="marquee-content">
-          {[...heroImages, ...heroImages, ...heroImages].map((img, i) => (
+          {heroImages.map((img, i) => (
             <div key={i} className="marquee-item">
               <img src={img} alt={`Student ${i + 1}`} />
             </div>
